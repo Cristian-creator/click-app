@@ -10,4 +10,4 @@ export const Team = z.object({
 
 export type Team = z.infer<typeof Team>;
 export type TeamWithId = WithId<Team> | null;
-export const Teams = db.collection<Team[]>('teams');
+export const Teams = db.collection<Team>('teams');

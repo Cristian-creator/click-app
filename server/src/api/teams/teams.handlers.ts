@@ -1,8 +1,9 @@
 import e, { Response, Request, NextFunction } from 'express';
-import { InsertOneResult, ObjectId, OptionalId, WithId } from 'mongodb';
+import { InsertOneResult, ModifyResult, ObjectId, OptionalId, WithId } from 'mongodb';
+import { TeamMember } from '../../interfaces/TeamMember';
 import { Team, TeamWithId, Teams } from './team.model';
 
-export async function getLeaderBoard(req: Request, res: Response<WithId<Team[]>[]>, next: NextFunction) {
+export async function getLeaderBoard(req: Request, res: Response<WithId<Team>[]>, next: NextFunction) {
     try {
         const teams = await Teams.find().toArray();
     
@@ -14,7 +15,7 @@ export async function getLeaderBoard(req: Request, res: Response<WithId<Team[]>[
 
 export async function getOrInsertOne(req: Request<{}, TeamWithId, any>, res: Response<TeamWithId>, next: NextFunction) {
     try {
-        const { name, memberId } = req.body;
+        const { name, memberId, numberOfUserClicks } = req.body;
         const searchedTeam = await Teams.findOne({
             name,
         });
@@ -41,41 +42,38 @@ export async function getOrInsertOne(req: Request<{}, TeamWithId, any>, res: Res
                 ...teamData,
             });
         } else {
+            let newTeamData: ModifyResult<Team>;
 
-            console.log(searchedTeam.members);
-            
             // check if the member is part of the team
-            // const userIsPartOfTheTeam = searchedTeam.members.
+            const userIsPartOfTheTeam = searchedTeam.members.filter((member) => member.memberId === memberId);
+            
+            // insert member if it isn't part of the team
+            if(!userIsPartOfTheTeam.length) {
+                newTeamData = await Teams.findOneAndUpdate({
+                    name: req.body.name,
+                }, {
+                    $push: { 
+                        "members": {
+                            memberId,
+                            clicks: 1,
+                        },
+                    }
+                });
 
-            // if()
-            // insert member in team
-            //  const updateTeam = await Teams.findOneAndUpdate({
-            //     name: req.body.name,
-            // }, {
-            //     $push: { 
-            //         "members": {
-            //             memberId,
-            //             $set:
-            //         },
-            //     }
-            // });
 
-            // const updateTeam = await Teams.findOneAndUpdate({
-            //     name: req.body.name,
-            // }, {
-            //     $push: { 
-            //         "members": {
-            //             memberId,
-            //             $set:
-            //         }
-            //     }
-            // });
+            } else {
+                // update member if it is part of the team
+                newTeamData = await Teams.findOneAndUpdate({
+                    name: req.body.name, "members.memberId": memberId,
+                }, {
+                    $set: {
+                        "members.$.clicks": numberOfUserClicks 
+                    }
+                });
+            }
 
             res.status(201);
-            res.json({
-                // _id: teamExists?._id,
-                ...req.body,
-            });
+            res.json(req.body);
         }
 
     } catch (error) {
