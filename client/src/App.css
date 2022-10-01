@@ -1,0 +1,21 @@
+:root {
+  --lightBlue: rgb(70, 142, 229);
+  --white: rgb(255, 255, 255);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* ----- Navbar -----  */
+.navbar-text {
+  font-family: 'Luckiest Guy', cursive;
+  text-align: center;
+  font-size: 2rem;
+  color: var(--white);
+  background: var(--lightBlue);
+
+  letter-spacing: 2px;
+  padding: 0.5rem;
+}
