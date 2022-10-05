@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import * as z from 'zod';
 
 export const ParamsWithTeamName = z.object({
