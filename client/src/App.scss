@@ -84,14 +84,37 @@ a {
 
 .team-name-form {
   display: flex;
+  flex-direction: column;
   position: relative;
+
+  & .input-container {
+    margin-right: 0px;
+  }
+
+  & > button {
+    margin-top: 8px;
+    height: 64px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .team-name-form {
+    flex-direction: row;
+
+    & .input-container {
+      margin-right: 16px;
+    }
+
+    & > button {
+      height: auto;
+    }
+  }
 }
 
 .input-container {
   display: flex;
   flex-direction: column;
   min-width: 260px;
-  margin-right: 16px;
 
   & > label, & > input::placeholder {
     font-style: italic;
