@@ -9,7 +9,7 @@ const initialState: TeamsState = {
 };
 
 export const teamsSlice = createSlice({
-    name: "todos",
+    name: 'teams',
     initialState,
     reducers: {
       setCurrentMember(
