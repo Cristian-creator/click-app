@@ -1,15 +1,22 @@
 import { Router } from 'express';
+import { validateRequest } from '../../middlewares';
+import { GetOrInsertTeam, MemberId } from './team.model';
 import * as TeamHandler from './teams.handlers';
 
 const router = Router();
 
-router.post('/leaderboard', TeamHandler.getLeaderBoard);
+router.post(
+    '/leaderboard', 
+    validateRequest({
+        body: MemberId,
+    }),
+    TeamHandler.getLeaderboard);
 
 router.post(
     '/get-or-insert',
-    // validateRequest({
-    //     body: Team,
-    // }), 
+    validateRequest({
+        body: GetOrInsertTeam,
+    }), 
     TeamHandler.getOrInsertOne,
 );
 

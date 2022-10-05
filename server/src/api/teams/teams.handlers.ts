@@ -1,8 +1,7 @@
 import e, { Response, Request, NextFunction } from 'express';
-import { InsertOneResult, ModifyResult, ObjectId, OptionalId, WithId } from 'mongodb';
-import { TeamMember } from '../../interfaces/TeamMember';
+import { ModifyResult } from 'mongodb';
 import compareValues from '../../utils/compareValues';
-import { Team, TeamWithId, Teams, TeamData } from './team.model';
+import { Team, Teams, TeamData, GetOrInsertTeam, TeamDataWithName } from './team.model';
 
 export async function findAll(req: Request, res: Response<any>, next: NextFunction) {
     try {
@@ -25,7 +24,7 @@ export async function findAll(req: Request, res: Response<any>, next: NextFuncti
     }
 }
 
-export async function getLeaderBoard(req: Request, res: Response<any>, next: NextFunction) {
+export async function getLeaderboard(req: Request<{}, TeamDataWithName[], { memberId: string }>, res: Response<TeamDataWithName[]>, next: NextFunction) {
     try {
         const { memberId } = req.body;
         const teams = await Teams.find().toArray();
@@ -49,7 +48,7 @@ export async function getLeaderBoard(req: Request, res: Response<any>, next: Nex
     }
 }
 
-export async function getOrInsertOne(req: Request<{}, TeamData, any>, res: Response<TeamData>, next: NextFunction) {
+export async function getOrInsertOne(req: Request<{}, TeamData, GetOrInsertTeam>, res: Response<TeamData>, next: NextFunction) {
     try {
         const { name, memberId, numberOfUserClicks } = req.body;
         const searchedTeam = await Teams.findOne({
