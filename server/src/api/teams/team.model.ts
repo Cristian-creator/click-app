@@ -8,6 +8,12 @@ export const Team = z.object({
     members: z.array(TeamMember),
 });
 
+export const TeamData = z.object({
+    userClicks: z.number().min(0),
+    teamClicks: z.number().min(0),
+});
+
 export type Team = z.infer<typeof Team>;
+export type TeamData = z.infer<typeof TeamData>;
 export type TeamWithId = WithId<Team> | null;
 export const Teams = db.collection<Team>('teams');

@@ -1,9 +1,12 @@
 import React, { FC } from 'react'
+import { Link } from 'react-router-dom'
 
 const Navbar: React.FC<{}> = () => {
   return (
-    <h2 className='navbar-text'> stfuandclick.com </h2>
-  )
+    <Link to='/'>
+      <h2 className='navbar-text'> stfuandclick.com </h2>
+    </Link>
+  );
 }
 
 export default Navbar

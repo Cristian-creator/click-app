@@ -4,7 +4,7 @@ import * as TeamHandler from './teams.handlers';
 
 const router = Router();
 
-router.get('/leader-board', TeamHandler.getLeaderBoard);
+router.post('/leaderboard', TeamHandler.getLeaderBoard);
 
 router.post(
     '/get-or-insert',
