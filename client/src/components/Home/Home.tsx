@@ -5,6 +5,7 @@ import axios from 'axios';
 import { isValidTeamName, isValidUuid } from '../../utils/dataValidations';
 import PageContent from '../PageContent/PageContent';
 
+// Redux
 import { useSelector } from "react-redux";
 import { TypedUseSelectorHook } from "react-redux";
 import { RootState } from '../../store/store';
@@ -17,8 +18,10 @@ const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 const Home: React.FC<{}> = () => {
   const getCurrentMemberId = useTypedSelector(selectCurrentMemberId);
   const { leadingTeams } = useTypedSelector(selectLeadingTeams);
+  
   const [inputValue, setInputValue] = useState('');
   const [inputError, setInputError] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

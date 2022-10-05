@@ -24,5 +24,3 @@ export interface TeamData {
     userClicks: number,
     teamClicks: number,
 };
-
-// export type RootState = ReturnType<typeof store.getState>

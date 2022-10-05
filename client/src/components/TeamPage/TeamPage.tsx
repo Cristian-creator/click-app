@@ -30,10 +30,7 @@ const TeamPage: React.FC<{}> = () => {
     
     if(isValidUuid(getCurrentMemberId)) {
         dispatch(updateLeadingTeam(teamName));
-        axios.post('/api/v1/teams/get-or-insert', data)
-          .then((res) => {
-            console.log(res.data);
-          });
+        axios.post('/api/v1/teams/get-or-insert', data);
     }
   }
   
